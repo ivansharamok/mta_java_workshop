@@ -7,15 +7,15 @@ RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 NORMAL=$(tput sgr0)
 
-if [ -z "$DTR_HOST" ]; then
-  echo "ERROR - DTR_HOST ENV param is empty or unset"
-  exit 1
-fi
-
 DTR_HOST=${DTR_HOST:-$1}
 ADMIN_USER=${ADMIN_USER:-"admin"}
 ADMIN_PASSWORD=${ADMIN_PASSWORD:-"admin1234"}
 DEBUG=${4:-false}
+
+if [ -z "$DTR_HOST" ]; then
+  echo "ERROR - DTR_HOST ENV param is empty or unset"
+  exit 1
+fi
 
 CURL_CMD="curl -k -s -u ${ADMIN_USER}:${ADMIN_PASSWORD} https://${DTR_HOST}"
 CURL_HEADERS=(-H 'Content-Type: application/json;charset=UTF-8' -H 'accept: application/json')
@@ -68,18 +68,10 @@ create_repo(){
   ORG=$2
   TEAM=$3
   echo $GREEN "Creating repo ${ORG}/${REPO} for team ${TEAM}" $NORMAL
-  post /api/v0/repositories/${ORG} "{\"name\":\"${REPO}\",\"visibility\":\"public\",\"shortDescription\":\"${REPO}\",\"scanOnPush\":false}"
+  post /api/v0/repositories/${ORG} "{\"name\":\"${REPO}\",\"visibility\":\"public\",\"shortDescription\":\"${REPO}\",\"scanOnPush\":true}"
   put /api/v0/repositories/${ORG}/${REPO}/teamAccess/${TEAM} '{"accessLevel":"read-write"}'
 }
 
-create_user frontend_user
-create_org frontend frontend_user web
-create_repo java_web frontend web
-create_repo signup_client frontend web
-
-
-create_user backend_user
-create_org backend backend_user services
-create_repo database backend services
-create_repo messageservice backend services
-create_repo worker backend services
+create_user gitlab
+create_org ci gitlab build
+create_repo java_app_build ci build
