@@ -58,14 +58,14 @@ This task uses `Gitlab-CE` software to configure CI/CD pipeline.
 
     ```bash
     # get runner registration token from Gitlab console
-    $token='<token>'
+    TOKEN='<token>'
     GITLAB_HOST='http://cicd_gitlab:80'
     CLONE_URL="http://${UCP_HOST}:9090"
     docker exec -it $(docker ps --format '{{.Names}}\t{{.ID}}'|grep gitlab-runner|cut -f2) gitlab-runner \
     register --non-interactive \
     --url ${GITLAB_HOST} \
     --clone-url ${CLONE_URL} \
-    --registration-token $token \
+    --registration-token $TOKEN \
     --executor docker \
     --description "local docker" \
     --docker-image "docker:latest" \
@@ -103,7 +103,7 @@ This task uses `Gitlab-CE` software to configure CI/CD pipeline.
     git clone http://${UCP_HOST}/root/java_app.git
     ```
 
-    >If asked, provide `username` and `password` configured during `gitlab` setup. By default it's user `root` and password `MySuperSecretAndSecurePass0rd!`
+    >If asked, provide `username` and `password` configured during `gitlab` setup. By default it's user `root` and password as specified in `./config/root_password.txt` file
 
     * Copy application source files into `java_app` folder
 
