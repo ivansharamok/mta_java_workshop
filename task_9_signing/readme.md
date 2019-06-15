@@ -140,7 +140,7 @@ docker run --rm -t -v dct:/root/.docker -v dtr-cert:/etc/ssl/certs -v /var/run/d
 
   * Navigate to `java_app` project in Gitlab and review the output of CI/CD Pipeline tasks.
   * Navigate to `java_app_build` repository in DTR and switch to `Tags` tab. You should be able to see `Signed` column filled in for the image tag you signed.
-  ![](images/signed_image.png)
+  ![](../images/signed_image.png)
 
 ## Configuring automated image signing
 
