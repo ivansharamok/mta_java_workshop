@@ -38,6 +38,7 @@ In this lab we'll use a Docker EE cluster. We'll initially deploy both a Java n-
 > * [Task 6: Deploying on Kubernetes](#task6)
 > * [*Bonus* Task 7: Container log collection](#task7)
 > * [*Bonus* Task 8: Setting up CI/CD pipeline](#task8)
+> * [*Bonus* Task 9: Image signing](#task9)
 
 ## Understanding the Play With Docker Interface
 
@@ -1217,6 +1218,10 @@ Navigate to [Task 7 instructions](./task_7_logging/readme.md) for more details.
 ## <a name="task8"></a>Task 8: Setting up CI/CD pipeline
 
 Navigate to [Task 8 instructions](./task_8_cicd/readme.md) for more details.
+
+## <a name="task9"></a>Task 9: Image signing
+
+Navigate to [Task 9 instructions](./task_9_signing/readme.md) for more details.
 
 ## Conclusion
 
