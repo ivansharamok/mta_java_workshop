@@ -1,0 +1,25 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DTR_USERNAME: admin
+  DTR_PASSWORD: password
+  DTR_SERVER: dtr.example.com
+  NAMESPACE: 'ci'
+  DCT_PASS: 'MyDctPassw0rd!'
+  IMAGE_NAME: ${CI_PROJECT_NAME}_build
+  IMAGE_TAG: $CI_PIPELINE_ID
+
+image: docker:stable
+
+before_script:
+  - docker info
+  - docker login -u $DTR_USERNAME -p $DTR_PASSWORD $DTR_SERVER
+
+build:
+  stage: build
+  script:
+    # build image
+    - docker build --pull -t ${DTR_SERVER}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} .
+    # sign and push image to DTR
+    - docker run --rm -t -v "dct:/root/.docker" -v "dtr-cert:/etc/ssl/certs" -v "/var/run/docker.sock:/var/run/docker.sock" -e DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${DCT_PASS} -e DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${DCT_PASS} docker:dind sh -c "docker trust sign ${DTR_SERVER}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"
+    # remove image from local registry
+    - docker rmi ${DTR_SERVER}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}
